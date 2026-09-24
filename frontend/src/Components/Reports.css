@@ -1,0 +1,361 @@
+/* Reports Page Styles */
+
+.reports-page {
+    padding: 2rem;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    color: #fff;
+}
+
+.reports-page.loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+}
+
+.page-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.page-header h1 {
+    font-size: 2rem;
+    background: linear-gradient(120deg, #4ecdc4, #44a08d);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+}
+
+.page-header p {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* Stats Overview */
+.stats-overview {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    padding: 1.25rem;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.stat-card h3 {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 0.5rem;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #4ecdc4;
+}
+
+.stat-value small {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* Tabs */
+.tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.tabs button {
+    padding: 0.75rem 1.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.tabs button:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.tabs button.active {
+    background: linear-gradient(135deg, #4ecdc4, #44a08d);
+    color: #1a1a2e;
+    border-color: transparent;
+    font-weight: bold;
+}
+
+/* Report Section */
+.report-section {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.report-section h2 {
+    margin-bottom: 1.5rem;
+    color: #4ecdc4;
+}
+
+.report-section h3 {
+    margin: 1.5rem 0 1rem;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* Data Table */
+.data-table {
+    overflow-x: auto;
+    margin-bottom: 1.5rem;
+}
+
+.data-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.data-table th,
+.data-table td {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.data-table th {
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+.data-table tr:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.status-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+.status-badge.clear {
+    background: rgba(78, 205, 196, 0.2);
+    color: #4ecdc4;
+}
+
+.status-badge.moderate {
+    background: rgba(254, 202, 87, 0.2);
+    color: #feca57;
+}
+
+.status-badge.congested {
+    background: rgba(255, 107, 107, 0.2);
+    color: #ff6b6b;
+}
+
+/* Summary Box */
+.summary-box {
+    background: rgba(78, 205, 196, 0.1);
+    border-radius: 12px;
+    padding: 1.25rem;
+    border-left: 4px solid #4ecdc4;
+}
+
+.summary-box h4 {
+    margin-bottom: 0.75rem;
+    color: #4ecdc4;
+}
+
+.summary-box p {
+    margin: 0.5rem 0;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* Weekly Chart */
+.weekly-chart {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    padding: 2rem 1rem;
+    gap: 1rem;
+}
+
+.day-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+}
+
+.bar-container {
+    height: 220px;
+    display: flex;
+    align-items: flex-end;
+    width: 100%;
+}
+
+.bar {
+    width: 100%;
+    max-width: 60px;
+    margin: 0 auto;
+    border-radius: 8px 8px 0 0;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 0.5rem;
+    transition: height 0.3s;
+}
+
+.bar.weekday {
+    background: linear-gradient(180deg, #4ecdc4, #44a08d);
+}
+
+.bar.weekend {
+    background: linear-gradient(180deg, #ff6b6b, #ee5a5a);
+}
+
+.bar-value {
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.day-label {
+    margin-top: 0.5rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.speed-label {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* Comparison Box */
+.comparison-box {
+    margin-top: 1.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 1.25rem;
+}
+
+.comparison-box h4 {
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.comparison-stats {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+}
+
+.comp-stat {
+    text-align: center;
+}
+
+.comp-stat .label {
+    display: block;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 0.25rem;
+}
+
+.comp-stat .value {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #4ecdc4;
+}
+
+/* Speed Stats */
+.speed-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.speed-stat {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 1rem;
+    text-align: center;
+}
+
+.speed-stat.highlight {
+    background: rgba(78, 205, 196, 0.15);
+    border: 1px solid rgba(78, 205, 196, 0.3);
+}
+
+.speed-stat .label {
+    display: block;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 0.25rem;
+}
+
+.speed-stat .value {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #fff;
+}
+
+/* Hourly Speed Chart */
+.hourly-speed-chart {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.hour-speed {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.hour-speed .hour {
+    width: 50px;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.speed-bar {
+    height: 20px;
+    background: linear-gradient(90deg, #4ecdc4, #44a08d);
+    border-radius: 4px;
+    min-width: 20px;
+    transition: width 0.3s;
+}
+
+.hour-speed .speed-value {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.8);
+    width: 60px;
+}
+
+/* Loader */
+.loader {
+    width: 50px;
+    height: 50px;
+    border: 4px solid rgba(255, 255, 255, 0.2);
+    border-top-color: #4ecdc4;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}

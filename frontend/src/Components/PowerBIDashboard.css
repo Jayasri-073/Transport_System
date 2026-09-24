@@ -1,0 +1,262 @@
+.powerbi-dashboard {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1e1e2e 0%, #2d2d44 100%);
+  padding: 2rem;
+  color: #fff;
+}
+
+.powerbi-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.powerbi-header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #00d4ff, #7c3aed);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.5rem;
+}
+
+.powerbi-header .subtitle {
+  color: #888;
+  font-size: 1.1rem;
+}
+
+/* KPI Cards */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.kpi-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.kpi-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.kpi-card .kpi-icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.kpi-card .kpi-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.kpi-card .kpi-label {
+  color: #888;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.kpi-card.trips { border-left: 4px solid #118DFF; }
+.kpi-card.trips .kpi-value { color: #118DFF; }
+
+.kpi-card.vehicles { border-left: 4px solid #00B294; }
+.kpi-card.vehicles .kpi-value { color: #00B294; }
+
+.kpi-card.speed { border-left: 4px solid #F2C80F; }
+.kpi-card.speed .kpi-value { color: #F2C80F; }
+
+.kpi-card.saturday { border-left: 4px solid #FF8C00; }
+.kpi-card.saturday .kpi-value { color: #FF8C00; }
+
+/* Chart Sections */
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.chart-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.chart-card h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.chart-card h3 .chart-icon {
+  font-size: 1.2rem;
+}
+
+/* Loading State */
+.powerbi-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+}
+
+.powerbi-loading .loader {
+  width: 60px;
+  height: 60px;
+  border: 4px solid rgba(255, 255, 255, 0.1);
+  border-left-color: #00d4ff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.powerbi-loading p {
+  margin-top: 1rem;
+  color: #888;
+}
+
+/* Error State */
+.powerbi-error {
+  text-align: center;
+  padding: 3rem;
+  background: rgba(255, 0, 0, 0.1);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 0, 0, 0.3);
+}
+
+.powerbi-error h2 {
+  color: #ff6b6b;
+  margin-bottom: 1rem;
+}
+
+.powerbi-error button {
+  background: linear-gradient(135deg, #00d4ff, #7c3aed);
+  border: none;
+  color: #fff;
+  padding: 0.75rem 2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-top: 1rem;
+  transition: transform 0.2s;
+}
+
+.powerbi-error button:hover {
+  transform: scale(1.05);
+}
+
+/* Tooltip custom styling for Recharts */
+.recharts-tooltip-wrapper {
+  outline: none;
+}
+
+.custom-tooltip {
+  background: rgba(30, 30, 46, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.custom-tooltip p {
+  margin: 0.25rem 0;
+  font-size: 0.9rem;
+}
+
+.custom-tooltip .label {
+  font-weight: 600;
+  color: #fff;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .powerbi-dashboard {
+    padding: 1rem;
+  }
+  
+  .powerbi-header h1 {
+    font-size: 1.8rem;
+  }
+  
+  .charts-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .kpi-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .kpi-card .kpi-value {
+    font-size: 1.8rem;
+  }
+}
+
+/* Legend styling */
+.chart-legend {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: #888;
+}
+
+.legend-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+}
+
+/* Refresh button */
+.refresh-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  padding: 0.5rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 auto 2rem;
+}
+
+.refresh-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.last-updated {
+  text-align: center;
+  color: #666;
+  font-size: 0.85rem;
+  margin-top: 2rem;
+}
