@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+.venv/
+venv/
+ENV/
+
+# Python cache & logs
+__pycache__/
+*.py[cod]
+*$py.class
+*.log
+
+# React build
+frontend/build/
+
+# IDE / OS files
+.DS_Store
+.vscode/
+.idea/
+*.swp
+
+# Environment variables
+.env
+.env.local

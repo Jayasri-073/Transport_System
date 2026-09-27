@@ -19,14 +19,23 @@ import pandas as pd
 from datetime import datetime
 
 
-app = Flask(__name__)
-# Enable CORS for React frontend - allow all origins for development
+import os
+from flask import send_from_directory
+
+BUILD_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "frontend", "build"))
+
+if os.path.exists(BUILD_DIR):
+    app = Flask(__name__, static_folder=BUILD_DIR, static_url_path="")
+else:
+    app = Flask(__name__)
+
+# Enable CORS for React frontend - allow all origins for production and development
 CORS(app, resources={r"/*": {"origins": "*", "methods": ["GET", "POST", "OPTIONS"], "allow_headers": ["Content-Type"]}})
 
 
-@app.route("/")
-def home():
-    """API home endpoint with available routes."""
+@app.route("/api/info")
+def api_info():
+    """API info endpoint with available routes."""
     return jsonify({
         "message": "Smart City Transport System API",
         "version": "1.0",
@@ -44,6 +53,22 @@ def home():
         ],
         "timestamp": datetime.now().isoformat()
     })
+
+
+@app.route("/", defaults={'path': ''})
+@app.route("/<path:path>")
+def serve_frontend(path):
+    """Serve frontend static build if available, otherwise return API info."""
+    # Don't hijack API routes
+    if path.startswith("api/") or path in ["dashboard", "mapview", "predict"]:
+        return jsonify({"error": "Not Found"}), 404
+        
+    if os.path.exists(BUILD_DIR):
+        if path != "" and os.path.exists(os.path.join(BUILD_DIR, path)):
+            return send_from_directory(BUILD_DIR, path)
+        else:
+            return send_from_directory(BUILD_DIR, 'index.html')
+    return api_info()
 
 
 @app.route("/dashboard")
@@ -334,7 +359,10 @@ def powerbi_data():
 
 
 if __name__ == "__main__":
-    print("Starting Smart City Transport System API...")
-    print("Available at: http://localhost:5001")
-    app.run(debug=True, host='0.0.0.0', port=5001)
+    import os
+    port = int(os.environ.get("PORT", 5001))
+    debug = os.environ.get("FLASK_ENV") == "development" or os.environ.get("FLASK_DEBUG") == "1"
+    print(f"Starting Smart City Transport System API on port {port}...")
+    app.run(debug=debug, host='0.0.0.0', port=port)
+
 

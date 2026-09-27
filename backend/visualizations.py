@@ -13,14 +13,26 @@ from datetime import datetime
 plt.style.use('seaborn-v0_8-darkgrid')
 sns.set_palette("husl")
 
+def get_data_filepath():
+    candidates = [
+        os.path.join(os.path.dirname(__file__), "..", "vehicle_route_speed_dataset_5000.csv"),
+        os.path.join(os.path.dirname(__file__), "vehicle_route_speed_dataset_5000.csv"),
+        "vehicle_route_speed_dataset_5000.csv",
+        "../vehicle_route_speed_dataset_5000.csv"
+    ]
+    for p in candidates:
+        if os.path.exists(p):
+            return p
+    return candidates[0]
+
 # Paths
-DATA_FILE = os.path.join(os.path.dirname(__file__), "..", "vehicle_route_speed_dataset_5000.csv")
+DATA_FILE = get_data_filepath()
 OUTPUT_DIR = os.path.join(os.path.dirname(__file__), "visualizations")
 
 
 def load_data():
     """Load and preprocess data."""
-    df = pd.read_csv(DATA_FILE)
+    df = pd.read_csv(get_data_filepath())
     df['timestamp'] = pd.to_datetime(df['timestamp'])
     df['hour'] = df['timestamp'].dt.hour
     df['day_of_week'] = df['timestamp'].dt.dayofweek

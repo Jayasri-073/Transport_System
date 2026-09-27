@@ -3,6 +3,8 @@ flask-cors
 pandas
 numpy
 scikit-learn
-pyspark
 matplotlib
 seaborn
+gunicorn
+# pyspark  # Optional: Uncomment if Spark environment with Java is configured
+

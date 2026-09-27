@@ -1,0 +1,23 @@
+services:
+  # Python Flask Backend Service
+  - type: web
+    name: transport-system-backend
+    env: python
+    buildCommand: cd backend && pip install -r requirements.txt
+    startCommand: cd backend && gunicorn app:app --bind 0.0.0.0:$PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10.0
+
+  # React Frontend Static Web App
+  - type: web
+    name: transport-system-frontend
+    env: static
+    buildCommand: cd frontend && npm install && npm run build
+    staticPublishPath: frontend/build
+    envVars:
+      - key: REACT_APP_API_URL
+        fromService:
+          type: web
+          name: transport-system-backend
+          property: url

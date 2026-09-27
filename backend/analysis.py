@@ -7,13 +7,25 @@ import numpy as np
 from datetime import datetime, timedelta
 import os
 
+def get_data_filepath():
+    candidates = [
+        os.path.join(os.path.dirname(__file__), "..", "vehicle_route_speed_dataset_5000.csv"),
+        os.path.join(os.path.dirname(__file__), "vehicle_route_speed_dataset_5000.csv"),
+        "vehicle_route_speed_dataset_5000.csv",
+        "../vehicle_route_speed_dataset_5000.csv"
+    ]
+    for p in candidates:
+        if os.path.exists(p):
+            return p
+    return candidates[0]
+
 # Path to the CSV data file
-DATA_FILE = os.path.join(os.path.dirname(__file__), "..", "vehicle_route_speed_dataset_5000.csv")
+DATA_FILE = get_data_filepath()
 
 
 def load_data():
     """Load and preprocess the traffic data."""
-    df = pd.read_csv(DATA_FILE)
+    df = pd.read_csv(get_data_filepath())
     df['timestamp'] = pd.to_datetime(df['timestamp'])
     df['hour'] = df['timestamp'].dt.hour
     df['day_of_week'] = df['timestamp'].dt.dayofweek

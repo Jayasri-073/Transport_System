@@ -3,7 +3,7 @@
  * Handles all backend API calls
  */
 
-const API_BASE_URL = 'http://localhost:5001';
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5001';
 
 /**
  * Generic fetch wrapper with error handling
@@ -104,7 +104,7 @@ export async function uploadCSV(file) {
     }
 }
 
-export default {
+const apiService = {
     getDashboardData,
     getPeakHours,
     getCongestionData,
@@ -119,3 +119,5 @@ export default {
     getPowerBIData,
     uploadCSV
 };
+
+export default apiService;
