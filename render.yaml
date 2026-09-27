@@ -1,23 +1,22 @@
 services:
-  # Python Flask Backend Service
   - type: web
-    name: transport-system-backend
-    env: python
-    buildCommand: cd backend && pip install -r requirements.txt
-    startCommand: cd backend && gunicorn app:app --bind 0.0.0.0:$PORT
+    name: transport-system-p5jz
+    runtime: python
+    buildCommand: pip install -r backend/requirements.txt && npm ci --prefix frontend && npm run build --prefix frontend
+    startCommand: cd backend && gunicorn app:app --bind 0.0.0.0:$PORT --workers 2 --threads 4
+    healthCheckPath: /api/info
     envVars:
       - key: PYTHON_VERSION
         value: 3.10.0
-
-  # React Frontend Static Web App
-  - type: web
-    name: transport-system-frontend
-    env: static
-    buildCommand: cd frontend && npm install && npm run build
-    staticPublishPath: frontend/build
-    envVars:
-      - key: REACT_APP_API_URL
-        fromService:
-          type: web
-          name: transport-system-backend
-          property: url
+      - key: ADMIN_USERNAME
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: ADMIN_TOKEN_SECRET
+        generateValue: true
+      - key: DATA_UPLOAD_DIR
+        value: /var/data
+    disk:
+      name: transport-system-data
+      mountPath: /var/data
+      sizeGB: 1

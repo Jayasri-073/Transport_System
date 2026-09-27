@@ -217,7 +217,7 @@ The navbar contains links to all features:
 | Endpoint | Method | Description |
 |----------|--------|-------------|
 | `/` | GET | API info and available routes |
-| `/dashboard` | GET | Main dashboard metrics |
+| `/api/dashboard` | GET | Main dashboard metrics |
 | `/api/peak-hours` | GET | Peak traffic hours analysis |
 | `/api/congestion` | GET | Congestion hotspots and routes |
 | `/api/trends/daily` | GET | Daily traffic trends |
@@ -225,8 +225,8 @@ The navbar contains links to all features:
 | `/api/speed-analysis` | GET | Detailed speed metrics |
 | `/api/alerts` | GET | Traffic alerts |
 | `/api/historical-vs-realtime` | GET | Compare historical and live data |
-| `/mapview` | GET | Vehicle locations for map |
-| `/predict` | GET | Traffic prediction using ML |
+| `/api/mapview` | GET | Vehicle locations for map |
+| `/api/predict` | GET | Traffic prediction using ML |
 | `/api/realtime-simulation` | GET | Simulate real-time traffic |
 | `/api/powerbi-data` | GET | Power BI dashboard data |
 | `/api/upload-csv` | POST | Upload new CSV data file |
@@ -237,10 +237,10 @@ The navbar contains links to all features:
 
 | Field | Value |
 |-------|-------|
-| **Username** | `admin` |
-| **Password** | `password` |
+| **Username** | Value of `ADMIN_USERNAME` on the server |
+| **Password** | Value of `ADMIN_PASSWORD` on the server |
 
-> ⚠️ This is a demo app with hardcoded credentials. In production, use proper authentication!
+> Set `ADMIN_USERNAME`, `ADMIN_PASSWORD`, and a strong `ADMIN_TOKEN_SECRET` as Render environment variables. Admin login and CSV uploads are unavailable until all three are configured.
 
 ---
 
@@ -254,10 +254,8 @@ When uploading CSV files, ensure they have these **required columns**:
 | `route` | String | Route name (e.g., Route-A, Route-B) |
 | `speed_kmph` | Float | Speed in km/h |
 | `timestamp` | DateTime | Timestamp (YYYY-MM-DD HH:MM:SS) |
-
-**Optional columns:**
-- `latitude` - GPS latitude
-- `longitude` - GPS longitude
+| `latitude` | Float | Latitude between -90 and 90 |
+| `longitude` | Float | Longitude between -180 and 180 |
 
 ### Sample CSV Format:
 ```csv

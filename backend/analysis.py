@@ -23,9 +23,15 @@ def get_data_filepath():
 DATA_FILE = get_data_filepath()
 
 
+def set_data_filepath(filepath):
+    """Switch the active dataset after it has been validated by the API."""
+    global DATA_FILE
+    DATA_FILE = str(filepath)
+
+
 def load_data():
     """Load and preprocess the traffic data."""
-    df = pd.read_csv(get_data_filepath())
+    df = pd.read_csv(DATA_FILE)
     df['timestamp'] = pd.to_datetime(df['timestamp'])
     df['hour'] = df['timestamp'].dt.hour
     df['day_of_week'] = df['timestamp'].dt.dayofweek

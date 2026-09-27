@@ -1,55 +1,48 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { loginAdmin } from '../services/api';
 import './AdminPanel.css';
 
 function AdminLogin() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
 
-  // Check if already logged in
   useEffect(() => {
-    const isLoggedIn = localStorage.getItem('adminLoggedIn');
-    if (isLoggedIn === 'true') {
-      navigate('/admin/dashboard');
-    }
+    if (localStorage.getItem('adminToken')) navigate('/admin/dashboard');
   }, [navigate]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Simple check, in real app use authentication
-    if (username === 'admin' && password === 'password') {
-      // Store login state in localStorage
-      localStorage.setItem('adminLoggedIn', 'true');
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setSubmitting(true);
+    setError('');
+    try {
+      const response = await loginAdmin(username, password);
+      localStorage.setItem('adminToken', response.token);
       navigate('/admin/dashboard');
-    } else {
-      alert('Invalid credentials');
+    } catch (requestError) {
+      setError(requestError.message || 'Unable to sign in.');
+    } finally {
+      setSubmitting(false);
     }
   };
 
   return (
     <div className="admin-container">
-      <h2 className="admin-header">🔐 Admin Login</h2>
+      <h2 className="admin-header">Admin Login</h2>
       <form className="admin-form" onSubmit={handleSubmit}>
         <div>
-          <label>Username:</label>
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder="Enter username"
-          />
+          <label htmlFor="admin-username">Username</label>
+          <input id="admin-username" type="text" value={username} onChange={(event) => setUsername(event.target.value)} autoComplete="username" required />
         </div>
         <div>
-          <label>Password:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Enter password"
-          />
+          <label htmlFor="admin-password">Password</label>
+          <input id="admin-password" type="password" value={password} onChange={(event) => setPassword(event.target.value)} autoComplete="current-password" required />
         </div>
-        <button className="admin-button" type="submit">Login</button>
+        {error && <p className="upload-error" role="alert">{error}</p>}
+        <button className="admin-button" type="submit" disabled={submitting}>{submitting ? 'Signing in...' : 'Login'}</button>
       </form>
     </div>
   );

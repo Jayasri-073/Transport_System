@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { getPowerBIData } from '../services/api';
 import {
-    BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
-    ResponsiveContainer, Cell, LineChart, Line, ComposedChart
+    BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
+    ResponsiveContainer, Cell, Line, ComposedChart
 } from 'recharts';
 import './PowerBIDashboard.css';
 

@@ -1,123 +1,65 @@
-/**
- * API Service for Smart City Transport System
- * Handles all backend API calls
- */
+const configuredBaseUrl = process.env.REACT_APP_API_URL;
+const API_BASE_URL = (configuredBaseUrl || (process.env.NODE_ENV === 'development' ? 'http://localhost:5001' : '')).replace(/\/$/, '');
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5001';
-
-/**
- * Generic fetch wrapper with error handling
- */
-async function fetchAPI(endpoint) {
-    try {
-        const response = await fetch(`${API_BASE_URL}${endpoint}`);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.error(`API Error (${endpoint}):`, error);
-        throw error;
-    }
+async function request(endpoint, options = {}) {
+  const response = await fetch(`${API_BASE_URL}${endpoint}`, options);
+  const payload = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    throw new Error(payload.error || `Request failed (${response.status})`);
+  }
+  return payload;
 }
 
-// Dashboard API
-export async function getDashboardData() {
-    return fetchAPI('/dashboard');
+function fetchAPI(endpoint) {
+  return request(endpoint);
 }
 
-// Peak Hours API
-export async function getPeakHours() {
-    return fetchAPI('/api/peak-hours');
+export const getDashboardData = () => fetchAPI('/api/dashboard');
+export const getPeakHours = () => fetchAPI('/api/peak-hours');
+export const getCongestionData = () => fetchAPI('/api/congestion');
+export const getDailyTrends = () => fetchAPI('/api/trends/daily');
+export const getWeeklyTrends = () => fetchAPI('/api/trends/weekly');
+export const getSpeedAnalysis = () => fetchAPI('/api/speed-analysis');
+export const getAlerts = () => fetchAPI('/api/alerts');
+export const getHistoricalVsRealtime = () => fetchAPI('/api/historical-vs-realtime');
+export const getMapData = () => fetchAPI('/api/mapview');
+export const getPredictions = () => fetchAPI('/api/predict');
+export const getRealtimeSimulation = () => fetchAPI('/api/realtime-simulation');
+export const getPowerBIData = () => fetchAPI('/api/powerbi-data');
+
+export async function loginAdmin(username, password) {
+  return request('/api/admin/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username, password }),
+  });
 }
 
-// Congestion API
-export async function getCongestionData() {
-    return fetchAPI('/api/congestion');
-}
-
-// Daily Trends API
-export async function getDailyTrends() {
-    return fetchAPI('/api/trends/daily');
-}
-
-// Weekly Trends API
-export async function getWeeklyTrends() {
-    return fetchAPI('/api/trends/weekly');
-}
-
-// Speed Analysis API
-export async function getSpeedAnalysis() {
-    return fetchAPI('/api/speed-analysis');
-}
-
-// Alerts API
-export async function getAlerts() {
-    return fetchAPI('/api/alerts');
-}
-
-// Historical vs Realtime API
-export async function getHistoricalVsRealtime() {
-    return fetchAPI('/api/historical-vs-realtime');
-}
-
-// Map Data API
-export async function getMapData() {
-    return fetchAPI('/mapview');
-}
-
-// Predictions API
-export async function getPredictions() {
-    return fetchAPI('/predict');
-}
-
-// Real-time Simulation API
-export async function getRealtimeSimulation() {
-    return fetchAPI('/api/realtime-simulation');
-}
-
-// Power BI Data API
-export async function getPowerBIData() {
-    return fetchAPI('/api/powerbi-data');
-}
-
-// CSV Upload API
-export async function uploadCSV(file) {
-    try {
-        const formData = new FormData();
-        formData.append('file', file);
-
-        const response = await fetch(`${API_BASE_URL}/api/upload-csv`, {
-            method: 'POST',
-            body: formData
-        });
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        return await response.json();
-    } catch (error) {
-        console.error('CSV Upload Error:', error);
-        throw error;
-    }
+export async function uploadCSV(file, token) {
+  const formData = new FormData();
+  formData.append('file', file);
+  return request('/api/upload-csv', {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${token}` },
+    body: formData,
+  });
 }
 
 const apiService = {
-    getDashboardData,
-    getPeakHours,
-    getCongestionData,
-    getDailyTrends,
-    getWeeklyTrends,
-    getSpeedAnalysis,
-    getAlerts,
-    getHistoricalVsRealtime,
-    getMapData,
-    getPredictions,
-    getRealtimeSimulation,
-    getPowerBIData,
-    uploadCSV
+  getDashboardData,
+  getPeakHours,
+  getCongestionData,
+  getDailyTrends,
+  getWeeklyTrends,
+  getSpeedAnalysis,
+  getAlerts,
+  getHistoricalVsRealtime,
+  getMapData,
+  getPredictions,
+  getRealtimeSimulation,
+  getPowerBIData,
+  loginAdmin,
+  uploadCSV,
 };
 
 export default apiService;

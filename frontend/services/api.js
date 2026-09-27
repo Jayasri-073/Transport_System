@@ -1,7 +1,5 @@
 import axios from "axios";
 
-const API = axios.create({
-  baseURL: "http://localhost:5000/api",
-});
+const API_URL = "https://transport-system-p5jz.onrender.com";
 
 export default API;
