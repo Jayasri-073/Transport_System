@@ -22,6 +22,11 @@ class TransportApiTests(unittest.TestCase):
     def tearDown(self):
         self.upload_dir.cleanup()
 
+    def test_health_endpoint(self):
+        response = self.client.get("/api/health")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.get_json(), {"status": "ok"})
+
     def test_dashboard_data_is_available(self):
         response = self.client.get("/api/dashboard")
         self.assertEqual(response.status_code, 200)

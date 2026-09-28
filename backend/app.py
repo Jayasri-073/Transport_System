@@ -113,6 +113,10 @@ def create_app() -> Flask:
     def handle_large_upload(_error):
         return api_error(f"File is too large. Maximum upload size is {MAX_UPLOAD_BYTES // (1024 * 1024)} MB.", 413)
 
+    @app.get("/api/health")
+    def api_health():
+        return jsonify({"status": "ok"})
+
     @app.get("/api/info")
     def api_info():
         return jsonify({
