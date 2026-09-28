@@ -1,5 +1,5 @@
 {
-  "outputDirectory": "build",
+  "outputDirectory": "frontend/build",
   "rewrites": [
     { "source": "/api/:path*", "destination": "https://transport-system-p5jz.onrender.com/api/:path*" },
     { "source": "/(.*)", "destination": "/index.html" }
