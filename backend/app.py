@@ -57,13 +57,16 @@ def create_app() -> Flask:
     app.config["MAX_CONTENT_LENGTH"] = MAX_UPLOAD_BYTES
     app.config["JSON_SORT_KEYS"] = False
 
-    origins = [
-        origin.strip()
-        for origin in os.environ.get(
-            "CORS_ORIGINS", "http://localhost:3000,http://127.0.0.1:3000"
-        ).split(",")
-        if origin.strip()
-    ]
+    cors_origins_env = os.environ.get("CORS_ORIGINS")
+    if cors_origins_env:
+        origins = [origin.strip() for origin in cors_origins_env.split(",") if origin.strip()]
+    else:
+        origins = [
+            "http://localhost:3000",
+            "http://127.0.0.1:3000",
+            "https://transport-system-cgshok610-transport-system.vercel.app",
+            r"https://.*\.vercel\.app",
+        ]
     CORS(
         app,
         resources={r"/api/*": {"origins": origins}},
@@ -255,7 +258,7 @@ def create_app() -> Flask:
             "routes": routes.to_dict("records"),
         }
 
-    @app.post("/api/admin/login")
+    @app.route("/api/admin/login", methods=["POST"], strict_slashes=False)
     def admin_login():
         configured_username = os.environ.get("ADMIN_USERNAME")
         configured_password = os.environ.get("ADMIN_PASSWORD")
@@ -270,7 +273,7 @@ def create_app() -> Flask:
         token = serializer.dumps({"username": configured_username})
         return jsonify({"success": True, "token": token, "expires_in": TOKEN_MAX_AGE_SECONDS})
 
-    @app.post("/api/upload-csv")
+    @app.route("/api/upload-csv", methods=["POST"], strict_slashes=False)
     @admin_required
     def upload_csv():
         file = request.files.get("file")

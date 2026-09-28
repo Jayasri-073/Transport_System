@@ -1,5 +1,4 @@
-import axios from "axios";
+import apiService, { API_BASE_URL } from '../src/services/api';
 
-const API_URL = "https://transport-system-p5jz.onrender.com";
-
-export default API;
+export const API_URL = API_BASE_URL;
+export default apiService;

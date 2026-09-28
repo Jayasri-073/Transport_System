@@ -23,7 +23,15 @@ function AdminLogin() {
       localStorage.setItem('adminToken', response.token);
       navigate('/admin/dashboard');
     } catch (requestError) {
-      setError(requestError.message || 'Unable to sign in.');
+      const loginErrors = {
+        401: 'Incorrect username or password.',
+        403: 'Your account is not permitted to access the admin area.',
+        404: 'Admin login is unavailable because the API endpoint was not found.',
+        405: 'Admin login is incorrectly configured: the API does not accept POST at this endpoint.',
+        500: 'The server could not complete the login. Please try again shortly.',
+        0: 'Unable to connect to the transport server. Check your connection and try again.',
+      };
+      setError(loginErrors[requestError.status] || requestError.message || 'Unable to sign in.');
     } finally {
       setSubmitting(false);
     }

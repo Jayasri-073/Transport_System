@@ -49,6 +49,20 @@ class TransportApiTests(unittest.TestCase):
         )
         self.assertEqual(response.status_code, 400)
 
+    def test_admin_login_cors_preflight_allows_the_vercel_origin(self):
+        response = self.client.options(
+            "/api/admin/login",
+            headers={
+                "Origin": "https://transport-system-cgshok610-transport-system.vercel.app",
+                "Access-Control-Request-Method": "POST",
+            },
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            response.headers.get("Access-Control-Allow-Origin"),
+            "https://transport-system-cgshok610-transport-system.vercel.app",
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,11 +1,37 @@
-const configuredBaseUrl = process.env.REACT_APP_API_URL;
-const API_BASE_URL = (configuredBaseUrl || (process.env.NODE_ENV === 'development' ? 'http://localhost:5001' : '')).replace(/\/$/, '');
+const DEFAULT_API_BASE_URL = process.env.NODE_ENV === 'development'
+  ? 'http://localhost:5001'
+  : 'https://transport-system-p5jz.onrender.com';
+const rawApiUrl = process.env.REACT_APP_API_URL;
+const validApiUrl = rawApiUrl && rawApiUrl !== 'undefined' && rawApiUrl !== 'null' && rawApiUrl.trim() !== ''
+  ? rawApiUrl.trim()
+  : DEFAULT_API_BASE_URL;
+export const API_BASE_URL = validApiUrl.replace(/\/$/, '');
+
+export class ApiRequestError extends Error {
+  constructor(status, message) {
+    super(message);
+    this.name = 'ApiRequestError';
+    this.status = status;
+  }
+}
 
 async function request(endpoint, options = {}) {
-  const response = await fetch(`${API_BASE_URL}${endpoint}`, options);
+  let response;
+  try {
+    response = await fetch(`${API_BASE_URL}${endpoint}`, options);
+  } catch (_error) {
+    throw new ApiRequestError(0, 'Unable to reach the transport server. Check your connection and the API URL.');
+  }
   const payload = await response.json().catch(() => ({}));
   if (!response.ok) {
-    throw new Error(payload.error || `Request failed (${response.status})`);
+    const messages = {
+      401: 'Incorrect username or password.',
+      403: 'You do not have permission to perform this action.',
+      404: 'The requested API endpoint was not found.',
+      405: 'The login API endpoint does not accept this request method. Check the production API configuration.',
+      500: 'The transport server encountered an error. Please try again shortly.',
+    };
+    throw new ApiRequestError(response.status, payload.error || messages[response.status] || `Request failed (${response.status})`);
   }
   return payload;
 }
